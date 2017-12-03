@@ -228,4 +228,8 @@ add_dependencies(seriallink_encode srs_common_generate_messages_cpp)
 add_executable(cv_zoom src/cv_zoom.cpp)
 target_link_libraries(cv_zoom ${catkin_LIBRARIES})
 
+#other
+add_executable(shutdown src/shutdown.cpp)
+target_link_libraries(shutdown ${catkin_LIBRARIES})
+
 

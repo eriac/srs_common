@@ -8,3 +8,6 @@
 
 ## Camera
 ### cv_zoom
+
+## other
+### shutdown
