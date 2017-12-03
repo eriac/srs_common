@@ -204,6 +204,7 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
+#serial
 add_executable(serialport src/serialport.cpp)
 target_link_libraries(serialport ${catkin_LIBRARIES})
 
@@ -223,6 +224,7 @@ add_executable(seriallink_encode src/seriallink_encode.cpp)
 target_link_libraries(seriallink_encode ${catkin_LIBRARIES})
 add_dependencies(seriallink_encode srs_common_generate_messages_cpp)
 
+#camera
 add_executable(cv_zoom src/cv_zoom.cpp)
 target_link_libraries(cv_zoom ${catkin_LIBRARIES})
 
