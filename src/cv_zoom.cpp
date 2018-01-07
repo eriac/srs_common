@@ -7,6 +7,8 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
+
+int error_y=0;
 int zoom=1;
 image_transport::Publisher image_pub_;
 
@@ -34,12 +36,12 @@ void imageCb(const sensor_msgs::ImageConstPtr& msg){
 	int center_x = img_width/2;
 	cv::Mat cv_out_img;
 	if(zoom==2){
-		cv::Mat cv_cut_img(cv_in_ptr->image,cv::Rect(img_width/4, img_height/4, img_width/2, img_height/2));
+		cv::Mat cv_cut_img(cv_in_ptr->image,cv::Rect(img_width/4, img_height/4+error_y, img_width/2, img_height/2));
 		cv::resize(cv_cut_img, cv_out_img,cv::Size(),1,1);
 
 	}
 	else if(zoom==4){
-		cv::Mat cv_cut_img(cv_in_ptr->image,cv::Rect(img_width*3/8, img_height*3/8, img_width/4, img_height/4));
+		cv::Mat cv_cut_img(cv_in_ptr->image,cv::Rect(img_width*3/8, img_height*3/8+error_y, img_width/4, img_height/4));
 		cv::resize(cv_cut_img, cv_out_img,cv::Size(),2,2);
 	}
 	else{//zoom x1
@@ -68,6 +70,9 @@ int main(int argc, char** argv)
 	ros::NodeHandle n;
 	ros::NodeHandle pn("~");
 	image_transport::ImageTransport it_(n);
+
+	//param
+	pn.getParam("error_y", error_y);
 
 	//publish
 	image_pub_ = it_.advertise("image_output", 1);

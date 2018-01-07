@@ -28,12 +28,13 @@ int open_serial(const char *device_name){
 }
 
 int fd1;
-void serial_callback(const std_msgs::String& serial_msg){
-	write(fd1,serial_msg.data.c_str(),serial_msg.data.size());
-	printf("send:%s\n",serial_msg.data.c_str());
-}
 int diagnostic_counter=0;
 bool diagnostic_connect=false;
+void serial_callback(const std_msgs::String& serial_msg){
+	int rec=write(fd1,serial_msg.data.c_str(),serial_msg.data.size());
+	if(rec>=0)printf("send:%s\n",serial_msg.data.c_str());
+	else diagnostic_connect=false;
+}
 void diagnostic0(diagnostic_updater::DiagnosticStatusWrapper &stat){
 	if(diagnostic_connect){
 		if(diagnostic_counter<100){
@@ -69,7 +70,7 @@ int main(int argc, char **argv)
 	if(fd1<0){
 		ROS_ERROR("Serial Fail: cound not open %s", device_name);
 		printf("Serial Fail\n");
-		return 0;
+		ROS_BREAK();
 	}
 	else diagnostic_connect=true;
 
