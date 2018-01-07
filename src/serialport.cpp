@@ -33,7 +33,10 @@ bool diagnostic_connect=false;
 void serial_callback(const std_msgs::String& serial_msg){
 	int rec=write(fd1,serial_msg.data.c_str(),serial_msg.data.size());
 	if(rec>=0)printf("send:%s\n",serial_msg.data.c_str());
-	else diagnostic_connect=false;
+	else{
+		diagnostic_connect=false;
+		ROS_ERROR_ONCE("Serial Fail: cound not write");
+	}
 }
 void diagnostic0(diagnostic_updater::DiagnosticStatusWrapper &stat){
 	if(diagnostic_connect){
