@@ -1,6 +1,6 @@
 #include <stdlib.h>
 int main(void) 
 {
-    system("shutdown now");
+    system("echo 'raspberry' | sudo -S shutdown now");
     return 0;
 }
